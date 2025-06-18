@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SI RICH</title>
+  <link rel="stylesheet" href="123.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">SI RICH</div>
+    <ul class="navbar-menu">
+      <li><a href="#">BERANDA</a></li>
+      <li><a href="tulungaku.html">TULUNG AKU</a></li>
+      <li><a href="aboutme.html">TENTANG KAMI</a></li>
+    </ul>
+    <button class="login-button" onclick="window.location.href='login.html'">LOGIN</button>
+  </nav>
+
+  <div class="welcome-text">
+    <h2>Selamat Datang di Si Rich</h2>
+  </div>
+
+  <div class="slider-container">
+    <div class="slider">
+      <div class="slide"><img src="slide1.jpg" alt="Slide 1"></div>
+      <div class="slide"><img src="slide2.jpg" alt="Slide 2"></div>
+      <div class="slide"><img src="slide3.jpg" alt="Slide 3"></div>
+      <div class="slide"><img src="slide4.jpg" alt="Slide 4"></div>
+      <div class="slide"><img src="slide5.jpg" alt="Slide 5"></div>
+      <div class="slide"><img src="slide6.jpg" alt="Slide 6"></div>
+      <div class="slide"><img src="slide1.jpg" alt="Slide 1 Kloning"></div>
+    </div>
+    <button class="slider-btn prev">❮</button>
+    <button class="slider-btn next">❯</button>
+
+  </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const slider = document.querySelector('.slider');
+  const slides = document.querySelectorAll('.slide');
+  const totalSlides = slides.length;
+  let index = 0;
+  let isAnimating = false;
+
+  slider.style.width = `${totalSlides * 100}%`; 
+
+  document.querySelector('.slider-btn.next').addEventListener('click', nextSlide);
+  document.querySelector('.slider-btn.prev').addEventListener('click', prevSlide);
+
+  function move() {
+  slider.style.transition = 'transform 0.5s ease-in-out';
+  slider.style.transform = `translateX(-${index * 100}vw)`;
+}
+
+
+  function nextSlide() {
+    if (isAnimating) return;
+    isAnimating = true;
+    index++;
+
+    move();
+
+    if (index === totalSlides - 1) {
+      setTimeout(() => {
+        slider.style.transition = 'none';
+        index = 0;
+        slider.style.transform = `translateX(0)`;
+        setTimeout(() => {
+          slider.style.transition = 'transform 0.5s ease-in-out';
+          isAnimating = false;
+        }, 20);
+      }, 500);
+    } else {
+      setTimeout(() => isAnimating = false, 500);
+    }
+  }
+
+  function prevSlide() {
+    if (isAnimating) return;
+    isAnimating = true;
+
+    if (index === 0) {
+      slider.style.transition = 'none';
+      index = totalSlides - 2;
+      slider.style.transform = `translateX(-${(index + 1) * (100 / totalSlides)}%)`;
+      setTimeout(() => {
+        slider.style.transition = 'transform 0.5s ease-in-out';
+        index--;
+        move();
+        setTimeout(() => isAnimating = false, 500);
+      }, 20);
+    } else {
+      index--;
+      move();
+      setTimeout(() => isAnimating = false, 500);
+    }
+  }
+
+  setInterval(nextSlide, 5000);
+
+  window.addEventListener('pageshow', () => {
+    index = 0;
+    slider.style.transition = 'none';
+    slider.style.transform = 'translateX(0)';
+  });
+
+  move();
+});
+</script>
+
+
+</body>
+</html>

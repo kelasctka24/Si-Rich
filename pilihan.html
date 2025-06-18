@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Kas Kelas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="menu-pilihan">
+    <div id="top-reminder">
+  ⏰ Pengingat: Besok adalah hari Jumat! Jangan lupa bayar kas kelas, ya!
+  <span id="close-reminder" title="Tutup">✖️</span>
+</div>
+
+  <div class="main-content">
+        <h1>Selamat Datang di Si Rich</h1>
+    <div class="class-info">
+      <h3>TKA KELAS C</h3>
+      <p>Jumlah anggota: 28 mahasiswa</p>
+      <p>Dosen Pembimbing Akademik: Renna Melinda, S.T.,M.T.</p>
+    </div>
+    <div id="balance">Memuat Saldo...</div>
+
+<script>
+async function ambilSaldo() {
+  const url = 'https://docs.google.com/spreadsheets/d/11dsgJH4GA4VqWP9RSdojOyqAWKyHVrZH/gviz/tq?tqx=out:json&sheet=Sheet1';
+  const res = await fetch(url);
+  const txt = await res.text();
+  const json = JSON.parse(txt.substr(47).slice(0, -2));
+  const rows = json.table.rows;
+  const last = rows[rows.length - 1];
+  const saldo = last.c[last.c.length - 1].v;
+  document.getElementById('balance').innerText = `💰 Saldo Saat Ini: Rp ${saldo.toLocaleString()}`;
+}
+ambilSaldo();
+</script>
+        <button onclick="window.location.href='rekapkas.html'">Rekap Kas Kelas</button>
+        <button onclick="window.location.href='payment.html'">Pembayaran</button>
+        <button onclick="window.location.href='index.html'">Kembali</button>
+    </div>
+   <script>
+  const topReminder = document.getElementById("top-reminder");
+  const closeBtn = document.getElementById("close-reminder");
+
+  topReminder.style.display = "block";
+  document.body.style.paddingTop = "60px";
+
+  closeBtn.addEventListener("click", () => {
+    topReminder.style.display = "none";
+    document.body.style.paddingTop = "0";
+  });
+
+  // PRODUKSI: Ganti ke kondisi Kamis (getDay === 4) jika sudah siap
+  // const today = new Date();
+  // if (today.getDay() === 4) {
+  //   topReminder.style.display = "block";
+  //   document.body.style.paddingTop = "60px";
+  // }
+</script>
+
+</body>
+</html>
